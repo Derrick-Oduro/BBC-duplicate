@@ -9,10 +9,8 @@
 </head>
 <body>
     <div class="container mx-auto px-4 py-8">
-        @php
-            $categories= \App\Models\Category::all();
-        @endphp
-        <h1 class="text-1xl font-bold mb-6">Posts in Category: {{ $categories['name'] ?? 'Unknown Category' }}</h1>
+
+        <h1 class="text-1xl font-bold mb-6">Posts in Category: {{ $category->name ?? 'Unknown Category' }}</h1>
 
         @if(isset($posts) && count($posts) > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

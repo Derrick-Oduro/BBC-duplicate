@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Posts;
 use App\Models\Category;
 use App\Models\Tags;
@@ -33,16 +34,11 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
         // Validate the request data
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,png,gif|max:2048',
-            'category_id' => 'required|exists:categories,id',
-            'tag_id' => 'required|exists:tags,id',
-        ]);
+        $validatedData = $request->validated();
+
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -68,9 +64,6 @@ class PostController extends Controller
     {
         $posts = Posts::findOrFail($id);
         return view('singlepost', compact('posts'));
-
-
-
     }
 
     /**
@@ -124,6 +117,13 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //delete post
+        $post = Posts::findOrFail($id);
+        if ($post->image) {
+            Storage::delete('public/' . $post->image);
+        }
+        $post->delete();
+
+        return redirect('/')->with('success', 'Post deleted successfully!');
     }
 }

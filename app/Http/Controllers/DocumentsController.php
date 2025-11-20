@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Models\Posts;
+use App\Http\Requests\StoreDocumentsRequest;
+use App\Http\Requests\UpdateDocumentsRequest;
+use App\Models\Documents;
 
-
-class CategoryController extends Controller
+class DocumentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories = Category::all();
-        return ['categories' => $categories];
+        //
     }
 
     /**
@@ -29,24 +27,23 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDocumentsRequest $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Documents $documents)
     {
-        $category = Category::findOrFail($category->id);
-        return view('category-post', ['category' => $category]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Documents $documents)
     {
         //
     }
@@ -54,7 +51,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateDocumentsRequest $request, Documents $documents)
     {
         //
     }
@@ -62,7 +59,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Documents $documents)
     {
         //
     }
