@@ -13,12 +13,13 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('categories')->insert([
+        $categoryNames = ['Technology', 'Health', 'Travel', 'Education', 'Lifestyle', 'Finance', 'Food', 'Entertainment', 'Sports', 'Science'];
 
-            'name' => 'Health',
-
-            'slug' => 'health',
-
-        ]);
+        foreach ($categoryNames as $categoryName) {
+            DB::table('categories')->insert([
+                'name' => $categoryName,
+                'slug' => strtolower(str_replace(' ', '-', $categoryName)),
+            ]);
+        }
     }
 }

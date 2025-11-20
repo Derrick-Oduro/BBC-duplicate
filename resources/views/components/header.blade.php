@@ -28,8 +28,11 @@
                 @php
                     $categories = \App\Models\Category::all();
                 @endphp
+
                 @foreach($categories as $category)
-                    <a href="/category/{{ $category->id }}" class="text-xs text-gray-700 hover:text-black font-medium pb-1 border-b-2 transition-colors {{ request()->is('category/' . $category->id) ? 'border-red-500 text-black' : 'border-transparent' }}">
+                    <a href="{{ route('posts.byCategory', ['category' => $category]) }}" class="text-xs text-gray-700 hover:text-black font-medium pb-1 border-b-2 transition-colors 
+                        {{ request()->is('posts/category/' . $category->id) ? 'border-red-500 text-black' : 'border-transparent' }}
+                        ">
                         {{ $category->name }}
                     </a>
                 @endforeach
