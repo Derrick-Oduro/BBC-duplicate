@@ -10,14 +10,19 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', [PostController::class, 'index']);
 
 Route::get('/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
-Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
-Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
-Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
-Route::put('/posts/{id}/edit', [PostController::class, 'update'])->name('posts.update');
 
-// Route::resource('posts', PostController::class);
+// Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+// Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
+// Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+// Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+// Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+// Route::put('/posts/{id}/edit', [PostController::class, 'update'])->name('posts.update');
+
+Route::get('/sample', function () {
+    return view('sample');
+})->name('sample');
+
+Route::resource('posts', PostController::class);
 
 Route::get('/posts/category/{category}', [PostController::class, 'postsByCategory'])->name('posts.byCategory');
 

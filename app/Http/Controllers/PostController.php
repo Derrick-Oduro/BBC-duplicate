@@ -71,7 +71,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+         $post = Post::findOrFail($post->id);
+        $categories = Category::all();
+
+        return view('post.edit', compact('post', 'categories'));
     }
 
     /**
@@ -87,7 +90,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect('/admin')->with('success', 'Post deleted successfully!');
     }
 
     public function postsByCategory(Category $category)

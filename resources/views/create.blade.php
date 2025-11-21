@@ -30,7 +30,7 @@
 
                 <div>
                     <label for="tag_id" class="block text-gray-700 font-semibold mb-2">Tags</label>
-                    <select id="tag_id" name="tag_id" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select id="tag_id" name="tag_id" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 required">
                         <option value="" disabled selected>Select a tag</option>
                         @foreach($tags as $tag)
                             <option value="{{ $tag->id }}">{{ $tag->name }}</option>

@@ -90,7 +90,6 @@ class PostController_archive extends Controller
         ]);
 
         $post = Posts::findOrFail($id);
-
         $post->title = $request->title;
         $post->body = $request->body;
         $post->category_id = $request->category_id;
