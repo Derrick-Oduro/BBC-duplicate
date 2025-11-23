@@ -1,22 +1,95 @@
 @extends('layouts.base')
-
 @section('content')
-<h1 class="text-1xl font-bold mb-6">Posts in Category: {{ $category->name ?? 'Unknown Category' }}</h1>
+<div class="max-w-6xl mx-auto p-4">
 
-        @if(isset($posts) && count($posts) > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($posts as $post)
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <small>{{ $post->category->name ?? 'No Category' }}</small>
-                        <h2 class="text-xl font-bold mb-2">{{ $post->title ?? 'No Title' }}</h2>
-                        <p class="text-gray-700 mb-4">{{ Str::limit($post->body ?? 'No content available', 100) }}</p>
-                        <a href="/posts/{{ $post->id }}" class="text-blue-600 hover:underline">Read More</a>
+    <h1 class="text-2xl font-bold mb-6">Posts in Category: {{ $category->name ?? 'Unknown Category' }}</h1>
+
+    @if(isset($posts) && count($posts) > 0)
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-[700px]">
+
+            {{-- LEFT MAIN COLUMN --}}
+            <div class="col-span-1 md:col-span-9">
+                @php $featuredPost = $posts->last(); @endphp
+
+                {{-- Featured Post --}}
+                <div class="bg-white overflow-hidden h-64 md:h-auto mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 h-full">
+                        <div class="flex flex-col justify-center p-6 md:p-8 order-2 md:order-1">
+                            <h1 class="text-xl md:text-3xl lg:text-3xl font-bold mb-4 leading-tight text-gray-800">
+                                <a href="/posts/{{ $featuredPost->id }}" class="hover:underline">
+                                    {{ $featuredPost->title ?? 'No Title' }}
+                                </a>
+                            </h1>
+                            <p class="text-sm md:text-base lg:text-sm text-gray-600 leading-relaxed line-clamp-3">
+                                {{ Str::limit(strip_tags($featuredPost->body ?? 'No content available'), 200) }}
+                            </p>
+                        </div>
+
+                        <div class="relative overflow-hidden order-1 md:order-2">
+                            @if($featuredPost->image)
+                                <a href="/posts/{{ $featuredPost->id }}">
+                                    <img src="{{ asset('storage/' . $featuredPost->image) }}"
+                                         class="w-full h-64 object-cover"
+                                         alt="{{ $featuredPost->title }}">
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Bottom Grid --}}
+                <div class="hidden md:grid md:grid-cols-4 gap-3">
+                    @foreach($posts->reverse()->skip(1)->take(4) as $post)
+                        <div class="bg-white overflow-hidden">
+                            @if($post->image)
+                                <a href="/posts/{{ $post->id }}">
+                                    <img src="{{ asset('storage/' . $post->image) }}"
+                                         class="w-full h-32 object-cover"
+                                         alt="{{ $post->title }}">
+                                </a>
+                            @endif
+                            <div class="p-6">
+                                <h5 class="text-base font-bold mb-3 text-gray-800">
+                                    <a href="/posts/{{ $post->id }}" class="hover:underline">{{ $post->title }}</a>
+                                </h5>
+                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                                    {{ Str::limit(strip_tags($post->body ?? 'No content available'), 100) }}
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- RIGHT COLUMN --}}
+            <div class="col-span-1 md:col-span-3 flex flex-col gap-2">
+                @foreach($posts->reverse()->skip(5)->take(3) as $index => $post)
+                    <div class="bg-white overflow-hidden flex-1">
+                        {{-- Image only when index == 2 (keeps your provided logic) --}}
+                        @if($post->image && $index == 2)
+                            <a href="/posts/{{ $post->id }}">
+                                <img src="{{ asset('storage/' . $post->image) }}" class="w-full h-32 object-cover" alt="{{ $post->title }}">
+                            </a>
+                        @endif
+
+                        <div class="p-3">
+                            <h5 class="text-base font-bold mb-3 text-gray-800">
+                                <a href="/posts/{{ $post->id }}" class="hover:underline">{{ $post->title }}</a>
+                            </h5>
+                            <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                                {{ Str::limit(strip_tags($post->body ?? 'No content available'), 100) }}
+                            </p>
+                        </div>
                     </div>
                 @endforeach
             </div>
-        @else
-            <div class="bg-white rounded-lg shadow-md p-6 text-center">
-                <p class="text-gray-500">No posts available in {{ $category->name ?? 'Unknown' }} category.</p>
-            </div>
-        @endif
+
+        </div>
+    @else
+        <div class="bg-white rounded-lg p-6 text-center">
+            <p class="text-gray-500">No posts available at the moment.</p>
+        </div>
+    @endif
+
+</div>
 @endsection
