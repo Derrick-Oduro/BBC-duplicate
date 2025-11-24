@@ -17,8 +17,9 @@ class PostController_archive extends Controller
      */
     public function index()
     {
-        $posts = Posts::all();
-        return view('posts', compact('posts'));
+        $posts = Post::all();
+        $secondLatest = $posts->skip(1)->first();
+        return view('posts', compact('posts','secondLatest'));
     }
 
     /**

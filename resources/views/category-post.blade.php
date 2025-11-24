@@ -1,8 +1,8 @@
 @extends('layouts.base')
 @section('content')
-<div class="max-w-6xl mx-auto p-4">
+<div class="max-w-6xl mx-auto p-1">
 
-    <h1 class="text-2xl font-bold mb-6">Posts in Category: {{ $category->name ?? 'Unknown Category' }}</h1>
+    <h1 class="text-xl font-bold mb-6">Category: {{ $categoriy-> id ?? 'Unknown' }}</h1>
 
     @if(isset($posts) && count($posts) > 0)
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-[700px]">
@@ -13,8 +13,8 @@
 
                 {{-- Featured Post --}}
                 <div class="bg-white overflow-hidden h-64 md:h-auto mb-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 h-full">
-                        <div class="flex flex-col justify-center p-6 md:p-8 order-2 md:order-1">
+                    <div class="grid grid-cols-1 md:grid-cols-2">
+                        <div class="flex flex-col justify-center p-6 md:p-8 order-1 md:order-1">
                             <h1 class="text-xl md:text-3xl lg:text-3xl font-bold mb-4 leading-tight text-gray-800">
                                 <a href="/posts/{{ $featuredPost->id }}" class="hover:underline">
                                     {{ $featuredPost->title ?? 'No Title' }}
@@ -39,7 +39,7 @@
 
                 {{-- Bottom Grid --}}
                 <div class="hidden md:grid md:grid-cols-4 gap-3">
-                    @foreach($posts->reverse()->skip(1)->take(4) as $post)
+                    @foreach($posts->reverse()->skip(4)->take(4) as $post)
                         <div class="bg-white overflow-hidden">
                             @if($post->image)
                                 <a href="/posts/{{ $post->id }}">
@@ -63,10 +63,9 @@
 
             {{-- RIGHT COLUMN --}}
             <div class="col-span-1 md:col-span-3 flex flex-col gap-2">
-                @foreach($posts->reverse()->skip(5)->take(3) as $index => $post)
+                @foreach($posts->reverse()->skip(1)->take(3) as $index => $post)
                     <div class="bg-white overflow-hidden flex-1">
-                        {{-- Image only when index == 2 (keeps your provided logic) --}}
-                        @if($post->image && $index == 2)
+                        @if($post->image && $index == 6 )
                             <a href="/posts/{{ $post->id }}">
                                 <img src="{{ asset('storage/' . $post->image) }}" class="w-full h-32 object-cover" alt="{{ $post->title }}">
                             </a>
@@ -82,6 +81,8 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div>
             </div>
 
         </div>
