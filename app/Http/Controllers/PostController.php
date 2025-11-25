@@ -15,8 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        $secondLatest = $posts->sortByDesc('created_at')->skip(1)->first();
+        $posts = Post::orderBy('created_at', 'desc')->get();
+        $secondLatest = $posts->skip(1)->first();
         return view('posts', [
             'posts' => $posts,
             'secondLatest' => $secondLatest

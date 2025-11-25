@@ -1,18 +1,18 @@
 @extends('layouts.base')
 @section('content')
-<div class="max-w-6xl mx-auto p-1">
+<div class="max-w-7xl mx-auto p-1">
 
     @if(isset($posts) && count($posts) > 0)
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-[700px]">
 
             {{-- LEFT MAIN COLUMN --}}
             <div class="col-span-1 md:col-span-9">
-                @php $featuredPost = $posts->last(); @endphp
+                @php $featuredPost = $posts->first(); @endphp
                 {{-- Featured Post --}}
                 <div class="bg-white overflow-hidden h-64 md:h-auto mb-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 h-full">
+                    <div class="grid grid-cols-2 md:grid-cols-2 h-full">
                         <div class="flex flex-col justify-center p-6 md:p-8 order-2 md:order-1">
-                            <h1 class="text-xl md:text-3xl lg:text-3xl font-bold font-merriweather mb-4 leading-tight text-gray-800">
+                            <h1 class="text-xl md:text-3xl lg:text-3xl font-bold font-sty mb-4 leading-tight text-gray-800">
                                 <a href="/posts/{{ $featuredPost->id }}" class="hover:underline">
                                     {{ $featuredPost->title ?? 'No Title' }}
                                 </a>
@@ -47,7 +47,7 @@
 
                 {{-- Bottom Grid --}}
                 <div class="hidden md:grid md:grid-cols-4 gap-3">
-                    @foreach($posts->reverse()->skip(4)->take(4) as $post)
+                    @foreach($posts->skip(4)->take(4) as $post)
                         <div class="bg-white overflow-hidden">
                             @if($post->image)
                                 <img src="{{ asset('storage/' . $post->image) }}" class="w-full h-32 object-cover" alt="{{ $post->title }}">
@@ -83,10 +83,9 @@
 
             {{-- RIGHT COLUMN --}}
             <div class="col-span-1 md:col-span-3 flex flex-col gap-2">
-                @php $secondLast = $posts->reverse()->skip(1)->take(1); @endphp
-                @foreach($posts->reverse()->skip(1)->take(3) as $index => $post)
+                @foreach($posts->skip(1)->take(3) as $index => $post)
                     <div class="bg-white overflow-hidden flex-1">
-                            @if($post->image && $index == 7)
+                            @if($post->image && $post->id == $secondLatest->id)
                                 <img src="{{ asset('storage/' . $post->image) }}" class="w-full h-32 object-cover" alt="{{ $post->title }}">
                             @endif
                         <div class="p-3">
@@ -120,9 +119,9 @@
                 $morePosts = $posts->reverse()->skip(8)->take(5);
             @endphp
             @if($morePosts->count() > 0)
-                <div class="col-span-1 md:col-span-3 flex flex-row gap-2 mt-4">
+                <div class="col-span-1 md:col-span-12 flex flex-row gap-3 -mt-4">
                     @foreach($morePosts as $post)
-                        <div class="bg-white p-3 overflow-hidden">
+                        <div class="bg-white p-4">
                             <h5 class="text-base font-bold text-gray-800">
                                 <a href="/posts/{{ $post->id }}" class="hover:underline">
                                     {{ $post->title }}
@@ -138,6 +137,16 @@
             <p class="text-gray-500">No posts available at the moment.</p>
         </div>
     @endif
+    <div class="border-2 border-black"></div>
+    <div class="">
+        <h4>MORE TO EXPLORE</h3>
+    </div>
+
+    {{-- <div class="border-2 border-black"></div>
+    <div class="">
+        <h4>ALSO IN NEWS</h3>
+    </div> --}}
+
 
 </div>
 @endsection

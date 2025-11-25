@@ -9,7 +9,7 @@
 
             {{-- LEFT MAIN COLUMN --}}
             <div class="col-span-1 md:col-span-9">
-                @php $featuredPost = $posts->last(); @endphp
+                @php $featuredPost = $posts->first(); @endphp
 
                 {{-- Featured Post --}}
                 <div class="bg-white overflow-hidden h-64 md:h-auto mb-4">
@@ -39,7 +39,7 @@
 
                 {{-- Bottom Grid --}}
                 <div class="hidden md:grid md:grid-cols-4 gap-3">
-                    @foreach($posts->reverse()->skip(4)->take(4) as $post)
+                    @foreach($posts->skip(4)->take(4) as $post)
                         <div class="bg-white overflow-hidden">
                             @if($post->image)
                                 <a href="/posts/{{ $post->id }}">
@@ -63,9 +63,9 @@
 
             {{-- RIGHT COLUMN --}}
             <div class="col-span-1 md:col-span-3 flex flex-col gap-2">
-                @foreach($posts->reverse()->skip(1)->take(3) as $index => $post)
+                @foreach($posts->skip(1)->take(3) as $index => $post)
                     <div class="bg-white overflow-hidden flex-1">
-                        @if($post->image && $index == 6 )
+                        @if($post->image && $index == 10 )
                             <a href="/posts/{{ $post->id }}">
                                 <img src="{{ asset('storage/' . $post->image) }}" class="w-full h-32 object-cover" alt="{{ $post->title }}">
                             </a>

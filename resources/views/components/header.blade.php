@@ -17,7 +17,6 @@
             </div>
         </div>
     </nav>
-
     @if(!request()->is('create'))
     <div class="bg-white border-b">
         <div class="container mx-auto px-1 py-1">
@@ -30,7 +29,7 @@
                 @endphp
 
                 @foreach($categories as $category)
-                    <a href="{{ route('posts.byCategory', ['category' => $category]) }}" class="text-xs text-gray-700 hover:text-black font-medium pb-1 border-b-2 transition-colors 
+                    <a href="{{ route('posts.byCategory', ['category' => $category]) }}" class="text-xs text-gray-700 hover:text-black font-medium pb-1 border-b-2 transition-colors
                         {{ request()->is('posts/category/' . $category->id) ? 'border-red-500 text-black' : 'border-transparent' }}
                         ">
                         {{ $category->name }}
