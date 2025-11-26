@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return ['categories' => $categories];
+        return view('admin.categories', ['categories' => $categories]);
     }
 
     /**
@@ -40,8 +40,11 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $category = Category::findOrFail($category->id);
-        return view('category-post', ['category' => $category]);
-    }
+        $posts = Post::orderBy('created_at', 'desc')->get();
+        $secondLatest = $posts->skip(1)->first();
+        return view('category-post', [
+            'secondLatest' => $secondLatest,
+            'category' => $category]);}
 
     /**
      * Show the form for editing the specified resource.
@@ -64,6 +67,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }

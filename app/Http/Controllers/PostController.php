@@ -23,6 +23,14 @@ class PostController extends Controller
         ]);
     }
 
+    public function admin()
+    {
+        $posts = Post::orderBy('created_at', 'desc')->get();
+        return view('admin.posts', [
+            'posts' => $posts
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -30,7 +38,7 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $tags = Tags::all();
-        return view('create', compact('categories', 'tags'));
+        return view('post.create', compact('categories', 'tags'));
     }
 
     /**

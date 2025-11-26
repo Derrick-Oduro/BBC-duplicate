@@ -1,35 +1,40 @@
 <?php
 
-use App\Models\Post;
-use App\Models\Posts;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
 
 Route::get('/', [PostController::class, 'index']);
 
 Route::get('/create', [PostController::class, 'create'])->name('posts.create');
-
-// Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-// Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
-// Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
-// Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
-// Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
-// Route::put('/posts/{id}/edit', [PostController::class, 'update'])->name('posts.update');
 
 Route::get('/sample', function () {
     return view('sample');
 })->name('sample');
 
 Route::resource('posts', PostController::class);
-
+Route::resource('categories', CategoryController::class);
+Route::resource('tags', TagController::class);
 Route::get('/posts/category/{category}', [PostController::class, 'postsByCategory'])->name('posts.byCategory');
-
-
-
-
-//category routes
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
 
@@ -37,8 +42,8 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('categorie
 Route::get('/admin', function () {
     return view('admin');
 })->name('admin');
+Route::get('/admin/posts', [PostController::class, 'admin'])->name('posts.admin');
 
-Route::get('/admin', [PostController::class, 'index'])->name('posts.index');
 Route::put('/admin', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/admin', [PostController::class, 'destroy'])->name('posts.destroy');
 
@@ -49,7 +54,6 @@ Route::get('/posts/{id}/admin', [PostController::class, 'show'])->name('posts.sh
 Route::get('/category/{id}', function () {
     return view('category-post');
 })->name('category-post');
-
 
 Route::get('test', function () {
     $post = Post::with('category')
@@ -66,3 +70,6 @@ Route::get('test', function () {
 
 
 })->name('test');
+
+//tags
+Route::get('/tags', [TagController::class, 'index'])->name('tags.index');

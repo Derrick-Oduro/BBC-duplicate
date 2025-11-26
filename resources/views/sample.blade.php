@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @section('content')
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 min-h-[700px]">
 
             {{-- FEATURED STORY  --}}

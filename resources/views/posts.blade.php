@@ -10,8 +10,8 @@
                 @php $featuredPost = $posts->first(); @endphp
                 {{-- Featured Post --}}
                 <div class="bg-white overflow-hidden h-64 md:h-auto mb-4">
-                    <div class="grid grid-cols-2 md:grid-cols-2 h-full">
-                        <div class="flex flex-col justify-center p-6 md:p-8 order-2 md:order-1">
+                    <div class="grid grid-cols-2 md:grid-cols-3 h-full">
+                        <div class="flex flex-col col-span-1 justify-center p-6 md:p-0 w-64 order-2 md:order-1">
                             <h1 class="text-xl md:text-3xl lg:text-3xl font-bold font-sty mb-4 leading-tight text-gray-800">
                                 <a href="/posts/{{ $featuredPost->id }}" class="hover:underline">
                                     {{ $featuredPost->title ?? 'No Title' }}
@@ -21,28 +21,14 @@
                                 {{ Str::limit(strip_tags($featuredPost->body ?? 'No content available'), 200) }}
                             </p>
                         </div>
-                        <div class="relative overflow-hidden order-1 md:order-2">
+                        <div class="relative col-span-2 overflow-hidden order-1 md:order-2">
                             @if($featuredPost->image)
                                 <img src="{{ asset('storage/' . $featuredPost->image) }}"
-                                     class="w-full h-64 object-cover"
+                                     class="w-full h-80 object-cover"
                                      alt="{{ $featuredPost->title }}">
                             @endif
                         </div>
                     </div>
-                    @if(request()->path() == 'admin')
-                        <div class="flex justify-end mt-2 space-x-2">
-                            <a href="/posts/{{ $featuredPost->id }}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-medium">
-                                Edit
-                            </a>
-                            <form action="/posts/{{ $featuredPost->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium">
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
-                    @endif
                 </div>
 
                 {{-- Bottom Grid --}}
@@ -52,29 +38,13 @@
                             @if($post->image)
                                 <img src="{{ asset('storage/' . $post->image) }}" class="w-full h-32 object-cover" alt="{{ $post->title }}">
                             @endif
-                            <div class="p-6">
-                                <h5 class="text-base font-bold mb-3 text-gray-800">
+                            <div class="p-0">
+                                <h5 class="text-base font-bold mb-2 mt-2 text-gray-800">
                                     <a href="/posts/{{ $post->id }}" class="hover:underline">{{ $post->title }}</a>
                                 </h5>
                                 <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
                                     {{ Str::limit(strip_tags($post->body ?? 'No content available'), 100) }}
                                 </p>
-
-                                {{-- Admin Buttons --}}
-                                @if(request()->path() == 'admin')
-                                    <div class="flex justify-end mt-2 space-x-2">
-                                        <a href="/posts/{{ $post->id }}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-medium">
-                                            Edit
-                                        </a>
-                                        <form action="/posts/{{ $post->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     @endforeach
@@ -95,28 +65,12 @@
                             <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
                                 {{ Str::limit(strip_tags($post->body ?? 'No content available'), 100) }}
                             </p>
-
-                            {{-- Admin Buttons --}}
-                            @if(request()->path() == 'admin')
-                                <div class="flex justify-end mt-2 space-x-2">
-                                    <a href="/posts/{{ $post->id }}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-medium">
-                                        Edit
-                                    </a>
-                                    <form action="/posts/{{ $post->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            @endif
                         </div>
                     </div>
                 @endforeach
             </div>
             @php
-                $morePosts = $posts->reverse()->skip(8)->take(5);
+                $morePosts = $posts->skip(8)->take(5);
             @endphp
             @if($morePosts->count() > 0)
                 <div class="col-span-1 md:col-span-12 flex flex-row gap-3 -mt-4">
@@ -141,12 +95,28 @@
     <div class="">
         <h4>MORE TO EXPLORE</h3>
     </div>
+    @if(isset($posts) && count($posts) > 0)
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-[200px]">
 
-    {{-- <div class="border-2 border-black"></div>
-    <div class="">
-        <h4>ALSO IN NEWS</h3>
-    </div> --}}
-
-
+        {{-- LEFT MAIN COLUMN --}}
+        <div class="col-span-1 md:col-span-9">
+            @php $featuredPostMore = $posts->skip(13)->first(); @endphp
+            {{-- Featured Post --}}
+            <div class="bg-white overflow-hidden h-64 md:h-auto mb-4">
+                <div class="grid grid-cols-2 md:grid-cols-2 h-full">
+                    <div class="flex flex-col justify-center p-6 md:p-8 order-2 md:order-1">
+                        <h1 class="text-xl md:text-3xl lg:text-3xl font-bold font-sty mb-4 leading-tight text-gray-800">
+                            <a href="/posts/{{ $featuredPostMore->id }}" class="hover:underline">
+                                {{ $featuredPostMore->title ?? 'No Title' }}
+                            </a>
+                        </h1>
+                        <p class="text-sm md:text-base lg:text-sm text-gray-600 leading-relaxed line-clamp-3">
+                            {{ Str::limit(strip_tags($featuredPostMore->body ?? 'No content available'), 200) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 @endsection
