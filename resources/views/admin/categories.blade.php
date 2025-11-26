@@ -4,50 +4,57 @@
 <div class="flex">
 
     {{-- Sidebar --}}
-    <aside class="w-1/4 bg-blue-600 min-h-screen p-4">
-        <nav class="space-y-4">
-            <a href="{{ route('posts.admin') }}" class="block px-4 py-2 bg-white rounded hover:bg-gray-300">Posts</a>
-            <a href="{{ route('categories.index') }}" class="block px-4 py-2 bg-white rounded hover:bg-gray-300">Categories</a>
-            <a href="{{ route('tags.index') }}" class="block px-4 py-2 bg-white rounded hover:bg-gray-300">Tags</a>
-        </nav>
-    </aside>
+    <x-sidebar></x-sidebar>
 
     {{-- Main Content Area --}}
     <main class="w-3/4 p-6">
         <h1 class="text-2xl font-bold mb-4">Categories</h1>
+        <div class="mb-4">
+            <a href="{{ route('category.create') }}"
+               class="px-3 py-1 bg-black text-white text-sm rounded hover:bg-gray-700 float-right">
+               Add Category
+            </a>
+        </div>
 
-        @foreach($categories as $category)
-            <div class="mb-4 p-4 border rounded bg-white">
+        <table class="min-w-full bg-white rounded ">
+            <thead>
+                <tr>
+                    <th class="py-1 px-3 border-b text-sm">ID</th>
+                    <th class="py-1 px-3 border-b text-sm">Name</th>
+                    <th class="py-1 px-3 border-b text-sm">Slug</th>
+                    <th class="py-1 px-3 border-b text-sm text-right">Actions</th>
+                </tr>
+            </thead>
 
-                <div class="flex items-center justify-between mb-2">
+            <tbody>
+                @foreach($categories as $category)
+                <tr>
+                    <td class="py-1 px-3 border-b text-sm">{{ $category->id }}</td>
+                    <td class="py-1 px-3 border-b text-sm">{{ $category->name }}</td>
+                    <td class="py-1 px-3 border-b text-sm">{{ $category->slug ?? 'N/A' }}</td>
+                    <td class="py-1 px-3 border-b">
+                        <div class="flex justify-end space-x-2">
 
-                    {{-- Category Name (Left) --}}
-                    <h2 class="text-sm font-semibold">
-                        {{ $category->name }}
-                    </h2>
+                            <a href="{{ route('categories.edit', $category->id) }}"
+                               class="px-2 py-1 text-sm text-green-500 rounded hover:underline">
+                               Edit
+                            </a>
+                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button
+                                    type="submit"
+                                    class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
+                                    Delete
+                                </button>
+                            </form>
 
-                    {{-- Buttons (Right) --}}
-                    <div class="flex space-x-2">
-                        {{-- Delete --}}
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button
-                                type="submit"
-                                class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
-                            >
-                                Delete
-                            </button>
-                        </form>
-                        <a href="{{ route('categories.edit', $category->id) }}"class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                            Edit
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
-        @endforeach
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
     </main>
 </div>

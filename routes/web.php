@@ -21,11 +21,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 require __DIR__.'/auth.php';
 
 Route::get('/', [PostController::class, 'index']);
 
-Route::get('/create', [PostController::class, 'create'])->name('posts.create');
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::get('/tag/create', [TagController::class, 'create'])->name('tag.create');
 
 Route::get('/sample', function () {
     return view('sample');
@@ -34,6 +37,16 @@ Route::get('/sample', function () {
 Route::resource('posts', PostController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('tags', TagController::class);
+
+
+
+
+
+
+
+
+
+
 Route::get('/posts/category/{category}', [PostController::class, 'postsByCategory'])->name('posts.byCategory');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 

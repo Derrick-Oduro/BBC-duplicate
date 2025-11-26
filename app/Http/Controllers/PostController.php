@@ -21,6 +21,7 @@ class PostController extends Controller
             'posts' => $posts,
             'secondLatest' => $secondLatest
         ]);
+
     }
 
     public function admin()
@@ -48,8 +49,6 @@ class PostController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validated();
-
-
         $imagePath = "";
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
@@ -61,9 +60,10 @@ class PostController extends Controller
             'body' => $validatedData['body'],
             'image' => $imagePath,
             'category_id' => $validatedData['category_id'],
+            'tag_id' => $validatedData['tag_id'],
         ]);
 
-        return redirect('/')->with('success', 'Post created successfully!');
+        return redirect()->route('posts.admin')->with('success', 'Post created successfully!');
     }
 
     /**
@@ -81,10 +81,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-         $post = Post::findOrFail($post->id);
+        $post = Post::findOrFail($post->id);
         $categories = Category::all();
+        $tags = Tags::all();
 
-        return view('post.edit', compact('post', 'categories'));
+        return view('post.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -92,7 +93,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+
     }
 
     /**
