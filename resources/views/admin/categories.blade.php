@@ -10,10 +10,11 @@
     <main class="w-3/4 p-6">
         <h1 class="text-2xl font-bold mb-4">Categories</h1>
         <div class="mb-4">
-            <a href="{{ route('category.create') }}"
+            <label for="createCategoryModal"
                class="px-3 py-1 bg-black text-white text-sm rounded hover:bg-gray-700 float-right">
                Add Category
-            </a>
+            </label>
+        <x-modal.createCategoryModal></x-modal.createCategoryModal>
         </div>
 
         <table class="min-w-full bg-white rounded ">
@@ -35,10 +36,11 @@
                     <td class="py-1 px-3 border-b">
                         <div class="flex justify-end space-x-2">
 
-                            <a href="{{ route('categories.edit', $category->id) }}"
+                            <label for="editCategoryModal-{{ $category->id }}"
                                class="px-2 py-1 text-sm text-green-500 rounded hover:underline">
                                Edit
-                            </a>
+                            </label>
+                            <x-modal.editCategoryModal :category="$category"></x-modal.editCategoryModal>
                             <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')

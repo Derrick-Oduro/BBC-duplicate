@@ -20,6 +20,12 @@ class Post extends Model
         return $this->belongsToMany(Tags::class);
     }
 
+    public function getPostModal($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('components.modal.editPostModal', compact('post'));
+    }
+
     protected $fillable = [
         'title',
         'body',

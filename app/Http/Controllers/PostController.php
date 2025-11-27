@@ -24,6 +24,13 @@ class PostController extends Controller
 
     }
 
+    public function getPostModal($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('components.modal.editPostModal', compact('post'));
+
+    }
+
     public function admin()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
@@ -47,6 +54,8 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+
+
         // Validate the request data
         $validatedData = $request->validated();
         $imagePath = "";
@@ -60,7 +69,7 @@ class PostController extends Controller
             'body' => $validatedData['body'],
             'image' => $imagePath,
             'category_id' => $validatedData['category_id'],
-            'tag_id' => $validatedData['tag_id'],
+            // 'tag_id' => $validatedData['tag_id'],
         ]);
 
         return redirect()->route('posts.admin')->with('success', 'Post created successfully!');
@@ -93,6 +102,22 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        $validatedData = $request->validated();
+        $imagePath = $post->image;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        $post->update([
+            'title' => $validatedData['title'],
+            'body' => $validatedData['body'],
+            'image' => $imagePath,
+            'category_id' => $validatedData['category_id'],
+            // 'tag_id' => $validatedData['tag_id'],
+        ]);
+
+        return redirect()->route('posts.admin')->with('success', 'Post updated successfully!');
 
     }
 

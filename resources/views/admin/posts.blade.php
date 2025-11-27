@@ -12,6 +12,14 @@
                class="px-3 py-1 bg-black text-white text-sm rounded hover:bg-gray-700 float-right">
                Add Post
             </a>
+            <label for="createPostModal"
+                class="rounded-md bg-slate-800 py-2 px-4 text-white cursor-pointer ml-2">
+                + Add Post
+            </label>
+            <x-modal.createPostModal :categories="\App\Models\Category::all()"></x-modal.createPostModal>
+            {{-- @include('components.modal.createPostModal', ['categories' => \App\Models\Category::all()]) --}}
+
+
         </div>
 
         <table class="min-w-full bg-white rounded ">
@@ -34,20 +42,23 @@
                     <td class="py-1 px-3 border-b text-xs">{{ $post->created_at->format('M d, Y') }}</td>
                     <td class="py-1 px-3 border-b">
                         <div class="flex justify-end space-x-2">
+                            {{-- @foreach ($posts as $post)
 
-                            <a href="{{ route('posts.edit', $post->id) }}"
+                            @endforeach --}}
+                            <label for="editPostModal-{{ $post->id }}"
                                class="px-2 py-1 text-sm text-green-500 rounded hover:underline">
                                Edit
-                            </a>
+                            </label>
+
+
                             <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button
-                                    type="submit"
-                                    class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
+                                <button type="submit" class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
                                     Delete
                                 </button>
                             </form>
+                            <x-modal.editPostModal :post="$post" :categories="\App\Models\Category::all()"></x-modal.editPostModal>
 
                         </div>
                     </td>

@@ -3,7 +3,7 @@
 <div class="flex">
     <x-sidebar></x-sidebar>
     <main class="w-3/4 p-6">
-        <h1 class="text-2xl font-bold mb-4">Edit Post</h1>
+        <h1 class="text-2xl font-bold mb-4">Edit PostT</h1>
 
         <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
@@ -38,7 +38,7 @@
                 </select>
             </div>
 
-            <div>
+            {{-- <div>
                 <label for="tag_id" class="block text-sm font-medium text-gray-700">Tag</label>
                 <select name="tag_id" id="tag_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
                     @foreach($tags as $tag)
@@ -47,7 +47,7 @@
                         </option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
             <div>
                 <button type="submit" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-700">
                     Update Post
