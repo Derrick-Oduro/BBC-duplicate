@@ -32,7 +32,7 @@ class TagController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|',
-            'slug' => 'nullable|string|max:255|unique:tags,slug',
+            'slug' => 'required|string|max:255|unique:tags,slug',
         ]);
 
         Tags::create([
@@ -69,7 +69,7 @@ class TagController extends Controller
         // $this->authorize('update', $tags);
         $request->validate([
             'name' => 'required|string|max:255|',
-            'slug' => 'nullable|string|max:255|unique:tags,slug,' . $tags->id,
+            'slug' => 'required|string|max:255|unique:tags,slug,' . $tags->id,
         ]);
         $tags->update([
             'name' => $request->input('name'),

@@ -36,7 +36,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug',
+            'slug' => 'required|string|max:255|unique:categories,slug',
         ]);
 
         Category::create([
@@ -76,7 +76,7 @@ class CategoryController extends Controller
         // $this->authorize('update', $category);
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
+            'slug' => 'required|string|max:255|unique:categories,slug,' . $category->id,
         ]);
 
         $category->update([

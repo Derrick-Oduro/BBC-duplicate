@@ -54,7 +54,7 @@
                             <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
+                                <button type="submit" onclick="return confirm('Are you very sure you want to delete this post?')" class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
                                     Delete
                                 </button>
                             </form>

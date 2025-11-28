@@ -41,7 +41,7 @@
                             <form action="{{ route('tags.destroy', $tag->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this tag')" class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
                                     Delete
                                 </button>
                             </form>

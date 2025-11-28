@@ -46,6 +46,7 @@
                                 @method('DELETE')
                                 <button
                                     type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this category?')"
                                     class="px-2 py-1 text-sm text-orange-500 rounded hover:underline">
                                     Delete
                                 </button>
