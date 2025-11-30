@@ -9,11 +9,12 @@
             </div>
 
             <div class="flex-1 flex justify-end">
-                @if(request()->path() == 'admin')
-                <button class="bg-black rounded-lg">
-                    <a href="/create" class="text-white hover:text-gray-800 mx-2">Create</a>
-                </button>
-                @endif
+                <!-- SUBSCRIBE BUTTON -->
+                <label for="subscribeModal"
+                    class="cursor-pointer bg-black text-white px-3 py-1 rounded hover:bg-gray-800 text-sm">
+                    Subscribe
+                </label>
+                <x-modal.subscribeModal></x-modal.subscribeModal>
             </div>
         </div>
     </nav>
