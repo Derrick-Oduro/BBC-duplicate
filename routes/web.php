@@ -92,3 +92,4 @@ Route::get('/posts/{id}/admin', [PostController::class, 'show'])->name('posts.sh
 //tags
 // Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
 Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe.store');
+Route::resource('subscribers', SubscriberController::class);;
