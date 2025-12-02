@@ -12,7 +12,8 @@ class SubscriberController extends Controller
      */
     public function index()
     {
-        //
+        $subscribers = Subscriber::all();
+        return view('admin.subscribers', ['subscribers' => $subscribers]);
     }
 
     /**
@@ -44,7 +45,7 @@ class SubscriberController extends Controller
      */
     public function show(Subscriber $subscriber)
     {
-        //
+        return response()->json($subscriber);
     }
 
     /**
@@ -52,7 +53,7 @@ class SubscriberController extends Controller
      */
     public function edit(Subscriber $subscriber)
     {
-        //
+
     }
 
     /**
@@ -60,7 +61,15 @@ class SubscriberController extends Controller
      */
     public function update(Request $request, Subscriber $subscriber)
     {
-        //
+        $request->validate([
+            'email' => 'required|email|unique:subscribers,email,' . $subscriber->id,
+        ]);
+
+        $subscriber->update([
+            'email' => $request->input('email'),
+        ]);
+
+        return redirect()->route('subscribers.index')->with('success', 'Subscriber updated successfully.');
     }
 
     /**
@@ -68,6 +77,7 @@ class SubscriberController extends Controller
      */
     public function destroy(Subscriber $subscriber)
     {
-        //
+        $subscriber->delete();
+        return redirect()->route('subscribers.index')->with('success', 'Subscriber deleted successfully.');
     }
 }

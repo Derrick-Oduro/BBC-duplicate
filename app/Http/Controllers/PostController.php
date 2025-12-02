@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Tags;
 use App\Models\Category;
+use App\Models\Subscriber;
+use App\Mail\NewPostNotification;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 
@@ -54,8 +57,6 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-
-
         // Validate the request data
         $validatedData = $request->validated();
         $imagePath = "";
@@ -64,7 +65,7 @@ class PostController extends Controller
         }
 
         // Create the post
-        Post::create([
+        $post = Post::create([
             'title' => $validatedData['title'],
             'body' => $validatedData['body'],
             'image' => $imagePath,
@@ -72,7 +73,25 @@ class PostController extends Controller
             // 'tag_id' => $validatedData['tag_id'],
         ]);
 
-        return redirect()->route('posts.admin')->with('success', 'Post created successfully!');
+        // Email subscribers about new post with error handling
+        try {
+            $subscribers = Subscriber::all();
+            foreach ($subscribers as $subscriber) {
+                Mail::to($subscriber->email)->send(new NewPostNotification($post));
+            }
+            $emailSuccess = true;
+        } catch (\Exception $e) {
+            // Log the error but don't stop post creation
+            \Log::error('Failed to send email notification: ' . $e->getMessage());
+            $emailSuccess = false;
+        }
+
+        $message = 'Post created successfully! email notifications sent to subscribers.';
+        if (!$emailSuccess) {
+            $message .= ' (Note: Email notifications could not be sent)';
+        }
+
+        return redirect()->route('posts.admin')->with('success', $message);
     }
 
     /**
