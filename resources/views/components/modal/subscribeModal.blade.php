@@ -2,10 +2,10 @@
 
 <!-- MODAL -->
 <label for="subscribeModal"
-    class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition"></label>
+    class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition z-50"></label>
 <div class="fixed inset-0 flex items-center justify-center
             opacity-0 pointer-events-none transition-all
-            peer-checked:opacity-100 peer-checked:pointer-events-auto">
+            peer-checked:opacity-100 peer-checked:pointer-events-auto z-50">
     <div class="bg-white p-6 rounded-lg w-80 shadow-xl">
         <h2 class="text-lg font-semibold mb-3">Subscribe</h2>
 

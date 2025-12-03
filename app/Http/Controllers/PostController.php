@@ -72,7 +72,7 @@ class PostController extends Controller
             // 'tag_id' => $validatedData['tag_id'],
         ]);
 
-        // Email subscribers about new post with error handling
+        // Email subscribers
         try {
             $subscribers = Subscriber::all();
             foreach ($subscribers as $subscriber) {

@@ -37,7 +37,7 @@ class SubscriberController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        return response()->json(['message' => 'Subscription successful.'], 201);
+        return redirect()->route('posts.index')->with('success', 'Subscription successful.');
     }
 
     /**
