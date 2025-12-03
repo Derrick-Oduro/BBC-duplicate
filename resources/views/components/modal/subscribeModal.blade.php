@@ -1,4 +1,3 @@
-<!-- MODAL TOGGLE -->
 <input type="checkbox" id="subscribeModal" class="peer hidden" />
 
 <!-- MODAL -->

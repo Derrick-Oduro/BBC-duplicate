@@ -19,7 +19,7 @@ class PostFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'body' => $this->faker->paragraphs(3, true),
-            'image' => $this->faker->optional()->imageUrl(640, 480, 'posts', true),
+            'image' => $this->faker->imageUrl(640, 480, 'posts', true),
             'category_id' => \App\Models\Category::inRandomOrder()->first()->id,
         ];
     }

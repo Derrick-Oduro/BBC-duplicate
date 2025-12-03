@@ -4,7 +4,7 @@
 <div class="flex">
 
     <x-sidebar></x-sidebar>
-    <main class="w-3/4 p-6">
+    <main class="w-3/4 p-6 bg-gray-100 min-h-screen w-full">
         <h1 class="text-2xl font-bold mb-4">Tags</h1>
         <div class="mb-4">
             <label for="createTagModal"
@@ -14,7 +14,7 @@
             <x-modal.createTagModal></x-modal.createTagModal>
         </div>
 
-        <table class="min-w-full bg-white rounded ">
+        <table class="min-w-full bg-white rounded-lg">
             <thead>
                 <tr>
                     <th class="py-1 px-3 border-b text-sm">ID</th>
@@ -27,9 +27,9 @@
             <tbody>
                 @foreach($tags as $tag)
                 <tr>
-                    <td class="py-1 px-3 border-b text-sm">{{ $tag->id }}</td>
-                    <td class="py-1 px-3 border-b text-sm">{{ $tag->name }}</td>
-                    <td class="py-1 px-3 border-b text-sm">{{ $tag->slug ?? 'N/A' }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $tag->id }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $tag->name }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $tag->slug ?? 'N/A' }}</td>
                     <td class="py-1 px-3 border-b">
                         <div class="flex justify-end space-x-2">
 

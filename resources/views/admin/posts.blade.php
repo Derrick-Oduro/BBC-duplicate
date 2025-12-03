@@ -5,24 +5,24 @@
 
     {{-- Sidebar --}}
     <x-sidebar></x-sidebar>
-    <main class="w-4/5 p-6">
+    <main class="w-4/5 p-6 bg-gray-100 min-h-screen w-full">
         <h1 class="text-2xl font-bold mb-4">Posts</h1>
         <div class="mb-4">
-            <a href="{{ route('posts.create') }}"
-               class="px-3 py-1 bg-black text-white text-sm rounded hover:bg-gray-700 float-right">
-               Add Post
-            </a>
             <label for="createPostModal"
+               class="px-3 py-1 bg-black text-white text-sm rounded hover:bg-gray-700 float-right">
+               +Add Post
+            </label>
+            {{-- <label for="createPostModal"
                 class="rounded-md bg-slate-800 py-2 px-4 text-white cursor-pointer ml-2">
                 + Add Post
-            </label>
+            </label> --}}
             <x-modal.createPostModal :categories="\App\Models\Category::all()"></x-modal.createPostModal>
             {{-- @include('components.modal.createPostModal', ['categories' => \App\Models\Category::all()]) --}}
 
 
         </div>
 
-        <table class="min-w-full bg-white rounded ">
+        <table class="min-w-full bg-white rounded-lg">
             <thead>
                 <tr>
                     <th class="py-1 px-3 border-b text-sm">ID</th>

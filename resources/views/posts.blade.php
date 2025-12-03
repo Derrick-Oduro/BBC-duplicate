@@ -8,45 +8,80 @@
             {{-- LEFT MAIN COLUMN --}}
             <div class="col-span-1 md:col-span-9">
 
-                <div class="relative bg-white overflow-hidden mb-4" style="height: 320px;">
-                    @foreach($posts->take(3) as $index => $post)
-                        <input type="radio" name="carousel" id="slide{{ $index }}" class="hidden peer/slide{{ $index }}" {{ $index === 0 ? 'checked' : '' }}>
-                    @endforeach
+                <div id="default-carousel" class="relative w-full mb-4" data-carousel="slide">
 
-                    @foreach($posts->take(3) as $index => $featuredPost)
-                        <div class="absolute inset-0 opacity-0 transition-opacity duration-500 peer-checked/slide{{ $index }}:opacity-100">
-                            <div class="grid grid-cols-1 md:grid-cols-3 h-full">
-                                <div class="flex flex-col justify-center p-6 md:p-8">
-                                    <h1 class="text-xl md:text-3xl font-bold mb-4 leading-tight text-gray-800">
-                                        <a href="/posts/{{ $featuredPost->id }}" class="hover:underline">
-                                            {{ $featuredPost->title ?? 'No Title' }}
-                                        </a>
-                                    </h1>
-                                    <p class="text-sm md:text-base text-gray-600 leading-relaxed">
-                                        {{ Str::limit(strip_tags($featuredPost->body ?? 'No content available'), 200) }}
-                                    </p>
-                                </div>
-                                <div class="col-span-2 relative overflow-hidden">
-                                    @if($featuredPost->image)
-                                        <img src="{{ asset('storage/' . $featuredPost->image) }}"
-                                             class="w-full h-80 object-cover"
-                                             alt="{{ $featuredPost->title }}">
-                                    @else
-                                        <div class="w-full h-80 bg-gray-200 flex items-center justify-center">
-                                            <span class="text-gray-500">No Image</span>
+                        {{-- Carousel Wrapper --}}
+                        <div class="relative h-80 overflow-hidden rounded-md md:h-96">
+
+                            @foreach($posts->take(3) as $index => $featuredPost)
+                                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-3 h-full bg-white">
+
+                                        {{-- TEXT SIDE --}}
+                                        <div class="flex flex-col justify-center p-6 md:p-8">
+                                            <h1 class="text-xl md:text-3xl font-bold mb-4 leading-tight text-gray-800">
+                                                <a href="/posts/{{ $featuredPost->id }}" class="hover:underline">
+                                                    {{ $featuredPost->title ?? 'No Title' }}
+                                                </a>
+                                            </h1>
+                                            <p class="text-sm md:text-base text-gray-600 leading-relaxed">
+                                                {{ Str::limit(strip_tags($featuredPost->body ?? 'No content available'), 200) }}
+                                            </p>
                                         </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
 
-                    <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-                        @foreach($posts->take(3) as $index => $post)
-                            <label for="slide{{ $index }}" class="w-3 h-3 rounded-full border-2 border-white transition-all duration-200 cursor-pointer bg-white/50 peer-checked/slide{{ $index }}:bg-white"></label>
-                        @endforeach
+                                        {{-- IMAGE SIDE --}}
+                                        <div class="col-span-2 relative overflow-hidden">
+                                            @if($featuredPost->image)
+                                                <img src="{{ asset('storage/' . $featuredPost->image) }}"
+                                                    class="absolute block w-full h-full object-cover top-0 left-0"
+                                                    alt="{{ $featuredPost->title }}">
+                                            @else
+                                                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                    <span class="text-gray-500">No Image</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                </div>
+                            @endforeach
+
+                        </div>
+
+                        {{-- SLIDER INDICATORS --}}
+                        <div class="absolute z-30 flex -translate-x-20 bottom-4 left-3/4 space-x-3">
+                            @foreach($posts->take(3) as $index => $p)
+                                <button type="button" class="w-3 h-3 rounded-full bg-white/60"
+                                    aria-label="Slide {{ $index + 1 }}"
+                                    data-carousel-slide-to="{{ $index }}"></button>
+                            @endforeach
+                        </div>
+
+                        {{-- PREV BUTTON --}}
+                        <button type="button"
+                            class="ml-[20rem] absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer"
+                            data-carousel-prev>
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black/30">
+                                <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
+                            </span>
+                        </button>
+
+                        {{-- NEXT BUTTON --}}
+                        <button type="button"
+                            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer"
+                            data-carousel-next>
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black/30">
+                                <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/></svg>
+                            </span>
+                        </button>
+
                     </div>
-                </div>
+
 
                 {{-- Bottom Grid --}}
                 <div class="hidden md:grid md:grid-cols-4 gap-3">

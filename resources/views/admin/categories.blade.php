@@ -7,7 +7,7 @@
     <x-sidebar></x-sidebar>
 
     {{-- Main Content Area --}}
-    <main class="w-3/4 p-6">
+    <main class="w-3/4 p-6 bg-gray-100 min-h-screen w-full">
         <h1 class="text-2xl font-bold mb-4">Categories</h1>
         <div class="mb-4">
             <label for="createCategoryModal"
@@ -17,10 +17,10 @@
         <x-modal.createCategoryModal></x-modal.createCategoryModal>
         </div>
 
-        <table class="min-w-full bg-white rounded ">
+        <table class="min-w-full bg-white rounded-lg">
             <thead>
                 <tr>
-                    <th class="py-1 px-3 border-b text-sm">ID</th>
+                    <th class="py-1 px-3 border-b text-sm ">ID</th>
                     <th class="py-1 px-3 border-b text-sm">Name</th>
                     <th class="py-1 px-3 border-b text-sm">Slug</th>
                     <th class="py-1 px-3 border-b text-sm text-right">Actions</th>
@@ -30,9 +30,9 @@
             <tbody>
                 @foreach($categories as $category)
                 <tr>
-                    <td class="py-1 px-3 border-b text-sm">{{ $category->id }}</td>
-                    <td class="py-1 px-3 border-b text-sm">{{ $category->name }}</td>
-                    <td class="py-1 px-3 border-b text-sm">{{ $category->slug ?? 'N/A' }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $category->id }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $category->name }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $category->slug ?? 'N/A' }}</td>
                     <td class="py-1 px-3 border-b">
                         <div class="flex justify-end space-x-2">
 
