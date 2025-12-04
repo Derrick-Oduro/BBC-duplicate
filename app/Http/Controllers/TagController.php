@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Tags;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    use AuthorizesRequests;
     public function index()
     {
         $tags = Tags::all();
@@ -30,6 +32,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create.tag', Tags::class);
         $request->validate([
             'name' => 'required|string|max:255|',
             'slug' => 'required|string|max:255|unique:tags,slug',
@@ -66,7 +69,7 @@ class TagController extends Controller
      */
     public function update(Request $request, Tags $tags)
     {
-        // $this->authorize('update', $tags);
+        $this->authorize('update.tag', $tags);
         $request->validate([
             'name' => 'required|string|max:255|',
             'slug' => 'required|string|max:255|unique:tags,slug,' . $tags->id,
@@ -84,7 +87,7 @@ class TagController extends Controller
      */
     public function destroy(Tags $tags)
     {
-        // $this->authorize('delete', $tags);
+        $this->authorize('delete.tag', $tags);
         $tags->delete();
 
         return redirect()->route('tags.index')->with('success', 'Tag deleted successfully.');

@@ -31,5 +31,7 @@ class Post extends Model
         'body',
         'image',
         'category_id',
+        'user_id',
+
     ];
 }

@@ -7,6 +7,7 @@ use App\Models\Tags;
 use App\Models\Category;
 use App\Models\Subscriber;
 use App\Mail\NewPostNotification;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -16,6 +17,7 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+    use AuthorizesRequests;
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
@@ -47,6 +49,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->authorize('create.post');
+
         $categories = Category::all();
         $tags = Tags::all();
         return view('post.create', compact('categories', 'tags'));
@@ -57,6 +61,8 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        $this->authorize('create.post');
+
         $validatedData = $request->validated();
         $imagePath = "";
         if ($request->hasFile('image')) {
@@ -69,6 +75,7 @@ class PostController extends Controller
             'body' => $validatedData['body'],
             'image' => $imagePath,
             'category_id' => $validatedData['category_id'],
+            'user_id' => auth()->id(), // Add this to track post owner
             // 'tag_id' => $validatedData['tag_id'],
         ]);
 
@@ -108,6 +115,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('edit.post', $post);
+
         $post = Post::findOrFail($post->id);
         $categories = Category::all();
         $tags = Tags::all();
@@ -120,6 +129,8 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        $this->authorize('edit.post', $post);
+
         $validatedData = $request->validated();
         $imagePath = $post->image;
 
@@ -132,6 +143,8 @@ class PostController extends Controller
             'body' => $validatedData['body'],
             'image' => $imagePath,
             'category_id' => $validatedData['category_id'],
+            // user_id should not be updated here
+            'user_id' => $post->user_id,
             // 'tag_id' => $validatedData['tag_id'],
         ]);
 
@@ -144,6 +157,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete.post', $post);
+
         $post->delete();
         return redirect('/admin/posts')->with('success', 'Post deleted successfully!');
     }
