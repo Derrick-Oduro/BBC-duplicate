@@ -70,23 +70,23 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
 
-        Gate::define('delete.category', function ($user, $category) {
+        Gate::define('delete.category', function ($user) {
             return $user->role === 'admin';
         });
-        Gate::define('create.category', function ($user, $category) {
+        Gate::define('create.category', function ($user) {
             return $user->role === 'admin';
         });
-        Gate::define('update.category', function ($user, $category) {
+        Gate::define('update.category', function ($user) {
             return $user->role === 'admin';
         });
 
-        Gate::define('delete.tag', function ($user, $tag) {
+        Gate::define('delete.tag', function ($user) {
             return $user->role === 'admin';
         });
-        Gate::define('create.tag', function ($user, $tag) {
+        Gate::define('create.tag', function ($user) {
             return $user->role === 'admin';
         });
-        Gate::define('update.tag', function ($user, $tag) {
+        Gate::define('update.tag', function ($user) {
             return $user->role === 'admin';
         });
     }
