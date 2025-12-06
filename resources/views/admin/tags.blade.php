@@ -4,6 +4,7 @@
 <div class="flex">
 
     <x-sidebar></x-sidebar>
+    @can('admin.access')
     <main class="w-3/4 p-6 bg-gray-100 min-h-screen w-full">
         <h1 class="text-2xl font-bold mb-4">Tags</h1>
         <div class="mb-4">
@@ -52,5 +53,11 @@
             </tbody>
         </table>
     </main>
+    @else
+    <main class="w-3/4 p-6 bg-gray-100 min-h-screen w-full">
+        <h1 class="text-2xl font-bold mb-4">Access Denied</h1>
+        <p>You do not have permission to access this page.</p>
+    </main>
+    @endcan
 </div>
 @endsection

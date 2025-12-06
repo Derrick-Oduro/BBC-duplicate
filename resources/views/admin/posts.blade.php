@@ -8,6 +8,7 @@
     <main class="w-4/5 p-6 bg-gray-100 min-h-screen w-full">
         <h1 class="text-2xl font-bold mb-4">Posts</h1>
         <div class="mb-4">
+            @can('create.post')
             <label for="createPostModal"
                class="px-3 py-1 bg-black text-white text-sm rounded hover:bg-gray-700 float-right">
                +Add Post
@@ -19,7 +20,7 @@
             <x-modal.createPostModal :categories="\App\Models\Category::all()"></x-modal.createPostModal>
             {{-- @include('components.modal.createPostModal', ['categories' => \App\Models\Category::all()]) --}}
 
-
+            @endcan
         </div>
 
         <table class="min-w-full bg-white rounded-lg">
@@ -45,12 +46,14 @@
                             {{-- @foreach ($posts as $post)
 
                             @endforeach --}}
+                            @can('edit.post', $post)
                             <label for="editPostModal-{{ $post->id }}"
                                class="px-2 py-1 text-sm text-green-500 rounded hover:underline">
                                Edit
                             </label>
+                            @endcan
 
-
+                            @can('delete.post', $post)
                             <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -59,7 +62,7 @@
                                 </button>
                             </form>
                             <x-modal.editPostModal :post="$post" :categories="\App\Models\Category::all()"></x-modal.editPostModal>
-
+                            @endcan
                         </div>
                     </td>
                 </tr>

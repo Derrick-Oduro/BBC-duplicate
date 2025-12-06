@@ -8,6 +8,7 @@
     <x-sidebar></x-sidebar>
 
     {{-- Main Content Area --}}
+    @can('admin.access')
     <main class="w-3/4 p-6 bg-gray-100 min-h-screen w-full">
         <h1 class="text-2xl font-bold mb-4">Roles Management</h1>
 
@@ -61,5 +62,11 @@
             </div>
         </form>
     </main>
+    @else
+    <main class="w-3/4 p-6 bg-gray-100 min-h-screen w-full">
+        <h1 class="text-2xl font-bold mb-4">Access Denied</h1>
+        <p>You do not have permission to access this page.</p>
+    </main>
+    @endcan
 </div>
 @endsection

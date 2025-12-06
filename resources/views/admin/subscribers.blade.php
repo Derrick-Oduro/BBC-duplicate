@@ -26,6 +26,7 @@
                     <td class="py-1 px-3 border-b text-sm text-center">{{ $subscriber->email }}</td>
                     <td class="py-1 px-3 border-b">
                         <div class="flex justify-end space-x-2">
+                            @can('admin.access')
                             <form action="{{ route('subscribers.destroy', $subscriber->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -36,6 +37,7 @@
                                     Delete
                                 </button>
                             </form>
+                            @endcan
 
                         </div>
                     </td>
