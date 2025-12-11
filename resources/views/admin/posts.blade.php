@@ -37,10 +37,10 @@
             <tbody>
                 @foreach($posts as $post)
                 <tr>
-                    <td class="py-1 px-3 border-b text-sm">{{ $post->id }}</td>
-                    <td class="py-1 px-3 border-b text-sm">{{ $post->title }}</td>
-                    <td class="py-1 px-3 border-b text-sm">{{ $post->category->name ?? 'N/A' }}</td>
-                    <td class="py-1 px-3 border-b text-xs">{{ $post->created_at->format('M d, Y') }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $post->id }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $post->title }}</td>
+                    <td class="py-1 px-3 border-b text-sm text-center">{{ $post->category->name ?? 'N/A' }}</td>
+                    <td class="py-1 px-3 border-b text-xs text-center">{{ $post->created_at->format('M d, Y') }}</td>
                     <td class="py-1 px-3 border-b">
                         <div class="flex justify-end space-x-2">
                             {{-- @foreach ($posts as $post)

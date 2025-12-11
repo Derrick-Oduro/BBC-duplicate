@@ -75,7 +75,7 @@ class PostController extends Controller
             'body' => $validatedData['body'],
             'image' => $imagePath,
             'category_id' => $validatedData['category_id'],
-            'user_id' => auth()->id(), // Add this to track post owner
+            'user_id' => auth()->id(),
             // 'tag_id' => $validatedData['tag_id'],
         ]);
 
